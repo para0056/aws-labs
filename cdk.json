@@ -39,9 +39,11 @@
       "aws-cn"
     ],
     "deployParameters": {
-      "domainName": "",
       "accountRegion": "ca-central-1",
-      "accountId": ""
+      "accountId": "",
+      "route53Stack": {
+        "domainName": ""
+      }
     }
   }
 }
