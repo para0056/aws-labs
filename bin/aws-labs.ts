@@ -3,6 +3,7 @@ import 'source-map-support/register';
 import * as cdk from 'aws-cdk-lib';
 import { CDKContext } from '../type';
 import { Route53ZoneStack } from '../lib/route53-zone-stack';
+import { TerraformBackendStateStack } from '../lib/tf-state-stack';
 
 // Create Stacks
 const createStacks = async () => {
@@ -17,6 +18,7 @@ const createStacks = async () => {
       }
     }
     const route53Stack = new Route53ZoneStack(app, 'Route53ZoneStack', props, context.route53Stack)
+    const terraformBackendStateStack = new TerraformBackendStateStack(app, 'TerraformBackendStateStack', props, context.terraformBackendStateStack)
   } catch (err) {
     console.error(err);
   }

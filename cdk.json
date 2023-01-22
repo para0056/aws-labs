@@ -43,6 +43,9 @@
       "accountId": "",
       "route53Stack": {
         "domainName": ""
+      },
+      "terraformBackendStateStack": {
+        "stateBucketName": "para-lab-ops-tf-state-bucket"
       }
     }
   }
