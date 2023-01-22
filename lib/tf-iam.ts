@@ -18,25 +18,55 @@ export class TerrformIamStack extends cdk.Stack {
             secretStringValue: tfIamUserAccessKey.secretAccessKey,
         });
 
-        user.addToPolicy(new iam.PolicyStatement ({
-            effect: iam.Effect.ALLOW,
-            resources: [],//Role to be created,
-            actions: ['sts:AssumeRole']
-        }));
+        const tfUserPolicy = new iam.PolicyDocument({
+            statements: [
+              new iam.PolicyStatement({
+                resources: [''], //s3 arn and object path
+                actions: [
+                's3:GetObject',
+                's3:ListBucket',
+                's3: GetObject',
+                's3:PutObject',
+                's3: DeleteObject'
+            ],
+                effect: iam.Effect.ALLOW,
+              }),
+              new iam.PolicyStatement({
+              resources: [''],//dynamo table arn
+               actions: [
+                    'dynamodb:DescribeTable',
+                    'dynamodb:GetItem',
+                    'dynamodb:PutItem',
+                    'dynamodb:DeleteItem'
+                ],
+                effect: iam.Effect.ALLOW,
+            }),
+                new iam.PolicyStatement({
+                resources: [''],//kms key arn
+                actions: [
+                    'kms:Encrypt', 
+                    'kms:Decrypt',
+                    'kms:GenerateDataKey'
+                ],
+                effect: iam.Effect.ALLOW,
+                }); 
+            ]
+          });
+
+
+        const tfIamRole = new iam.Role(this, 'TfIamRole', {
+            assumedBy: user,
+            description: 'IAM Role for Terraform Provider',
+        });
+
+        const adminPolicy = iam.ManagedPolicy.fromAwsManagedPolicyName(
+            'AdministratorAccess'
+        );
+
+        tfIamRole.addManagedPolicy(adminPolicy)
+
         
     }
 }
-
-// export class Route53ZoneStack extends cdk.Stack {
-//     constructor(scope: Construct, id: string, props: cdk.StackProps, context: Route53Context) {
-//       super(scope, id, props);
-  
-//       // The code that defines your stack goes here
-  
-//       new aws_route53.PublicHostedZone(this, 'HostedZone', {
-//         zoneName: context.domainName,
-//       });
-//     }
-//   }
   
 
