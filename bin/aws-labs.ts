@@ -4,6 +4,8 @@ import * as cdk from 'aws-cdk-lib';
 import { CDKContext } from '../type';
 import { Route53ZoneStack } from '../lib/route53-zone-stack';
 import { TerraformBackendStateStack } from '../lib/tf-state-stack';
+import { TerrformIamStack } from '../lib/tf-iam-stack'
+
 
 // Create Stacks
 const createStacks = async () => {
