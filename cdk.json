@@ -44,8 +44,9 @@
       "route53Stack": {
         "domainName": ""
       },
-      "terraformBackendStateStack": {
-        "stateBucketName": "para-lab-ops-tf-state-bucket"
+      "terraformBootstrapStack": {
+        "stateBucketName": "para-lab-ops-tf-state-bucket",
+        "roleName": "para-lab-ops-role"
       }
     }
   }
