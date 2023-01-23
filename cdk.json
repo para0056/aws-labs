@@ -46,7 +46,8 @@
       },
       "terraformBootstrapStack": {
         "stateBucketName": "para-lab-ops-tf-state-bucket",
-        "roleName": "para-lab-ops-role"
+        "roleName": "para-lab-ops-role",
+        "userName": "para-lab-ops-user"
       }
     }
   }

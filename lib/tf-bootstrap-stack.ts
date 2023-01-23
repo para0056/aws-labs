@@ -40,6 +40,7 @@ export class TerraformBootstrapStack extends cdk.Stack {
         });
 
         const user = new iam.User(this, 'TfIamUser', {
+            userName: context.userName
         });
 
         const tfIamUserAccessKey = new iam.AccessKey(this, 'TfIamUserAcessKey', { user });
@@ -48,10 +49,10 @@ export class TerraformBootstrapStack extends cdk.Stack {
             secretStringValue: tfIamUserAccessKey.secretAccessKey,
         });
 
-        const tfUserPolicy = new iam.PolicyDocument({
+        const tfUserPolicyDoc = new iam.PolicyDocument({
             statements: [
                 new iam.PolicyStatement({
-                    resources: ['tfStateBucket.bucketArn', 'tfStateBucket.arnForObjects'],
+                    resources: [tfStateBucket.bucketArn, tfStateBucket.arnForObjects('*')],
                     actions: [
                         's3:GetObject',
                         's3:ListBucket',
@@ -83,6 +84,11 @@ export class TerraformBootstrapStack extends cdk.Stack {
             ]
         });
 
+        const tfUserPolicy = new iam.Policy(this, 'TfUserPolicy', {
+            document: tfUserPolicyDoc,
+        })
+
+        tfUserPolicy.attachToUser(user);
 
         const tfIamRole = new iam.Role(this, 'TfIamRole', {
             assumedBy: user,
