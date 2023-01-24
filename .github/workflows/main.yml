@@ -1,0 +1,27 @@
+on:
+  pull_request:
+    branches:
+    - main
+
+jobs:
+  aws_cli:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout repo
+        uses: actions/checkout@v3
+      - uses: actions/setup-node@v2
+        with:
+          node-version: "18"
+      - name: Configure AWS Credentials
+        uses: aws-actions/configure-aws-credentials@v1
+        with:
+          aws-region: ${CDK_DEFAULT_REGION}
+          role-to-assume: ${CDK_ROLE_TO_ASSUME}
+          role-session-name: para-labs-ops-gh
+      - name: Install dependencies
+        run: npm install aws-cdk-lib
+      - name: Synth stack
+        run: npx cdk synth
+      - name: Deploy stack
+        run: npx cdk deploy --all --require-approval never
+      
