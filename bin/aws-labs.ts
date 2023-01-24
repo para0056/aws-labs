@@ -2,7 +2,6 @@
 import 'source-map-support/register';
 import * as cdk from 'aws-cdk-lib';
 import { CDKContext } from '../type';
-import { Route53ZoneStack } from '../lib/route53-zone-stack';
 import { TerraformBootstrapStack } from '../lib/tf-bootstrap-stack';
 
 
@@ -14,11 +13,10 @@ const createStacks = async () => {
     const deployParameters = getContext(app)
     const props: cdk.StackProps = {
       env: {
-        account: context.accountId,
-        region: context.accountRegion
+        account:  process.env.CDK_DEFAULT_ACCOUNT,
+        region: process.env.CDK_DEFAULT_REGION
       }
     }
-    const route53Stack = new Route53ZoneStack(app, 'Route53ZoneStack', props, context.route53Stack)
     const terraformBootstrapStack = new TerraformBootstrapStack(app, 'TerraformBootstrapStack', props, context.terraformBootstrapStack)
   } catch (err) {
     console.error(err);

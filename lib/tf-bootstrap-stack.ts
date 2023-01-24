@@ -11,9 +11,6 @@ import { BlockPublicAccess, BucketEncryption } from 'aws-cdk-lib/aws-s3';
 
 export class TerraformBootstrapStack extends cdk.Stack {
 
-    public readonly tfStateBucket: s3.Bucket;
-    public readonly tfStateLock: dynamodb.Table;
-
     constructor(scope: Construct, id: string, props: cdk.StackProps, context: TfBootstrapContext) {
         super(scope, id, props);
 
@@ -30,7 +27,6 @@ export class TerraformBootstrapStack extends cdk.Stack {
             enforceSSL: true,
             versioned: true
         });
-        this.tfStateBucket = tfStateBucket;
 
         const tfStateLock = new dynamodb.Table(this, 'StateLock', {
             partitionKey: {
@@ -104,11 +100,3 @@ export class TerraformBootstrapStack extends cdk.Stack {
 
     }
 }
-interface ConsumerProps extends cdk.StackProps {
-    myBucket: s3.IBucket
-}
-
-interface ConsumerProps extends cdk.StackProps {
-    myTable: dynamodb.ITable
-}
-
