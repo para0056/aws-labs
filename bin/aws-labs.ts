@@ -2,7 +2,8 @@
 import 'source-map-support/register';
 import * as cdk from 'aws-cdk-lib';
 import { CDKContext } from '../type';
-import { Route53ZoneStack } from '../lib/route53-zone-stack';
+import { TerraformBootstrapStack } from '../lib/tf-bootstrap-stack';
+
 
 // Create Stacks
 const createStacks = async () => {
@@ -12,11 +13,11 @@ const createStacks = async () => {
     const deployParameters = getContext(app)
     const props: cdk.StackProps = {
       env: {
-        account: context.accountId,
-        region: context.accountRegion
+        account: process.env.CDK_DEFAULT_ACCOUNT,
+        region: process.env.CDK_DEFAULT_REGION
       }
     }
-    const route53Stack = new Route53ZoneStack(app, 'Route53ZoneStack', props, context.route53Stack)
+    const terraformBootstrapStack = new TerraformBootstrapStack(app, 'TerraformBootstrapStack', props, context.terraformBootstrapStack)
   } catch (err) {
     console.error(err);
   }
@@ -26,20 +27,19 @@ const createStacks = async () => {
 export const getContext = (app: cdk.App): CDKContext => {
   const deployParameters: CDKContext = app.node.tryGetContext("deployParameters");
   const errors = [];
-  for (const [key, value] of Object.entries({ ...deployParameters, ...deployParameters.route53Stack })) {
-    if (value == null || value === "") {
-      errors.push(`Config cdk.json context '${key} requires a value.`)
-    }
+  for (const [key, value] of Object.entries({ ...deployParameters, ...deployParameters.terraformBootstrapStack })) {
+    // if (value == null || value === "") {
+    //   errors.push(`Config cdk.json context '${key} requires a value.`)
+    // }
   }
 
-  if (errors.length > 0) {
-    throw new Error(JSON.stringify(errors));
-  }
+  // if (errors.length > 0) {
+  //   throw new Error(JSON.stringify(errors));
+  // }
 
-  console.log(JSON.stringify(deployParameters, null, 2));
+  // console.log(JSON.stringify(deployParameters, null, 2));
   return { ...deployParameters }
 };
-
 
 createStacks();
 

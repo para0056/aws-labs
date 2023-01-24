@@ -39,10 +39,10 @@
       "aws-cn"
     ],
     "deployParameters": {
-      "accountRegion": "ca-central-1",
-      "accountId": "",
-      "route53Stack": {
-        "domainName": ""
+      "terraformBootstrapStack": {
+        "stateBucketName": "para-lab-ops-tf-state-bucket",
+        "roleName": "para-lab-ops-role",
+        "userName": "para-lab-ops-user"
       }
     }
   }
