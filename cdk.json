@@ -39,9 +39,6 @@
       "aws-cn"
     ],
     "deployParameters": {
-      "route53Stack": {
-        "domainName": "casanaley.net"
-      },
       "terraformBootstrapStack": {
         "stateBucketName": "para-lab-ops-tf-state-bucket",
         "roleName": "para-lab-ops-role",
