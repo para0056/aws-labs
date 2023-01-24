@@ -13,7 +13,7 @@ const createStacks = async () => {
     const deployParameters = getContext(app)
     const props: cdk.StackProps = {
       env: {
-        account:  process.env.CDK_DEFAULT_ACCOUNT,
+        account: process.env.CDK_DEFAULT_ACCOUNT,
         region: process.env.CDK_DEFAULT_REGION
       }
     }
@@ -25,9 +25,9 @@ const createStacks = async () => {
 
 // Get Context
 export const getContext = (app: cdk.App): CDKContext => {
-  const deployParameters: CDKContext = app.node.tryGetContext ("deployParameters");
+  const deployParameters: CDKContext = app.node.tryGetContext("deployParameters");
   const errors = [];
-  for (const [key, value] of Object.entries({ ...deployParameters, ...deployParameters.route53Stack, ...deployParameters.terraformBootstrapStack })) {
+  for (const [key, value] of Object.entries({ ...deployParameters, ...deployParameters.terraformBootstrapStack })) {
     // if (value == null || value === "") {
     //   errors.push(`Config cdk.json context '${key} requires a value.`)
     // }
