@@ -43,6 +43,11 @@
         "stateBucketName": "para-lab-ops-tf-state-bucket",
         "roleName": "para-lab-ops-role",
         "userName": "para-lab-ops-user"
+      },
+      "githubBootstrapStack": {
+        "gitHubOrg": "para0056",
+        "repoName": "aws-labs",
+        "roleName": "para-labs-gh-deploy-role"
       }
     }
   }

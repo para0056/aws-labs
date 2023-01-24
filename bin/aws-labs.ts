@@ -3,6 +3,7 @@ import 'source-map-support/register';
 import * as cdk from 'aws-cdk-lib';
 import { CDKContext } from '../type';
 import { TerraformBootstrapStack } from '../lib/tf-bootstrap-stack';
+import { GitHubBootstrapStack } from '../lib/gh-bootstrap-stack';
 
 
 // Create Stacks
@@ -18,6 +19,8 @@ const createStacks = async () => {
       }
     }
     const terraformBootstrapStack = new TerraformBootstrapStack(app, 'TerraformBootstrapStack', props, context.terraformBootstrapStack)
+    const gitHubBootstrapStack = new GitHubBootstrapStack(app, 'GitHubBootstrapStack', props, context.gitHubBootstrapStack)
+
   } catch (err) {
     console.error(err);
   }
@@ -27,7 +30,7 @@ const createStacks = async () => {
 export const getContext = (app: cdk.App): CDKContext => {
   const deployParameters: CDKContext = app.node.tryGetContext("deployParameters");
   const errors = [];
-  for (const [key, value] of Object.entries({ ...deployParameters, ...deployParameters.terraformBootstrapStack })) {
+  for (const [key, value] of Object.entries({ ...deployParameters, ...deployParameters.terraformBootstrapStack, ...deployParameters.gitHubBootstrapStack })) {
     // if (value == null || value === "") {
     //   errors.push(`Config cdk.json context '${key} requires a value.`)
     // }
